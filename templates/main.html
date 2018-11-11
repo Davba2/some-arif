@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+<body onload="hide()" style="background:#F6FFFE">
+
+    <div class=" container-fluid bg-yellow tc">
+        <p class="f-subheadline">Арифметические операции</p>
+        <a class="link lead f6" href="{{url_for('get_db')}}" style="text-decoration: none">Последние операции</a>
+    </div>
+     <div class="container-fluid tc " >
+    <form  id="form" class="form-group m-1"  enctype="multipart/form-data">
+        <input type="file" id="jojo" class="form-control" style="width:400px;margin:0 auto;"name='file' multiple accept="image/*">
+        <button type="submit" onclick="get()" class="m-1 btn btn-outline-primary ">
+            Pusk
+        </button>
+    </form>
+    </div>
+    <div class="container tc" style="position: relative;">
+        <img src="" id="im" class="tc img-fluid" style="width:600px">
+        <p id="zz" ></p>
+    </div>
+    <div id="can" class="container" >
+        <div class="text-center">
+            <canvas style="margin:0 auto;border:2px solid;background-color:white">
+            
+            </canvas>
+        </div>
+        <div class="text-center container">
+            <input type="button" id='clear' value='Clear' class="btn btn-outline-success">
+            <input type="button" id='change' value='Color' class="btn ">
+            <a id="a" class="btn btn-outline-success">Download</a>
+        </div>
+    </div>
+<div class="container text-center">
+    <div id='aa' style='position:fixed;bottom:30px;right:50px;'>
+        <input type="button" value="Нарисовать" id="draw" class="btn btn-outline-success">
+    </div>
+    <div style='position:fixed;bottom:30px;right:30px;'>
+        
+    </form>
+</div>
+<script>
+    function hide(){
+        $("#can").hide();
+    }
+    $(document).ready(function () {
+            $("#draw").click(function () {
+                $("#can").fadeToggle("slow", "linear");
+                    if($('#draw').val()=='Нарисовать'){
+                        $(this).val('Скрыть')
+                    }
+                    else{
+                        $(this).val('Нарисовать')
+                    }
+        })
+        });
+    function get() {
+        $("#form").submit(function(ev){
+            ev.preventDefault();
+        })
+        var file = $('#jojo').prop('files')[0];
+        var form=new FormData();
+        form.append("file",file);
+        $.ajax({
+            type: 'POST',
+            url: '/file_on',
+            data: form,
+            enctype:'multipart/form-data',
+            processData: false,
+            contentType: false,
+            timeout: 800000,
+            g:function(){
+                setTimeout(function(){
+                    console.log("Ждем")
+                },60000);
+            },
+            error:function(){
+                console.log("Dont work");
+            },success:function(response){
+                console.log("Работает");
+                var json = jQuery.parseJSON(response)
+                const er = document.querySelector("#fd");
+                zz= json.src + "?=" + Date.now();
+                $('#im').attr('src',zz);
+                $('#zz').attr('class','lead f1 lh-copy');
+                $('#zz').html(`Это изображение содержит ${json.otvet}. Ответ будет = ${json.ot}`);
+            },
+            
+        })
+    }
+    function compareRandom(a, b) {
+            return Math.random() - 0.5;
+        }
+
+    var canvas = document.querySelector('canvas');
+    var c = canvas.getContext('2d');
+    var mouseX = 0;
+    var mouseY = 0;
+    var colour = '#96CCFF';
+    var mousedown = false;
+    colors = ['#FF6300','#A463F2','#19A974','#357EDD','#001B44',' #111111','#D5008F', '#FF4136','#A463F2'];
+    canvas.width = 750;
+    canvas.height = 400;
+  
+    const col=document.querySelector('#change')
+    col.addEventListener('click',function(ev)
+    {
+        colors.sort(compareRandom);
+        colour = colors[0];
+        col.className='btn btn-outline';
+        col.style.backgroundColor = colour;
+        col.style.color='white';
+
+    })
+    function draw() {
+        if (mousedown) {
+            c.fillStyle = colour;
+            c.beginPath();
+            c.arc(mouseX, mouseY, 8, 1, Math.PI * 4.4, true);
+            c.closePath();
+            c.fill();
+        }
+    }
+    canvas.addEventListener('mousemove', function (event) {
+        if (event.offsetX) {
+            mouseX = event.offsetX;
+            mouseY = event.offsetY;
+        } else {
+            mouseX = event.pageX - event.target.offsetLeft;
+            mouseY = event.pageY - event.target.offsetTop;
+        }
+        draw();
+    }, false);
+
+    canvas.addEventListener('mousedown', function (event) {
+        mousedown = true;
+    }, false);
+    canvas.addEventListener('mouseup', function (event) {
+        mousedown = false;
+    }, false);
+
+    const cle = document.querySelector('#clear');
+    cle.addEventListener('click', function (event) {
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    })
+    const sav = document.querySelector("#clear");
+    const link = document.querySelector('#a');
+    link.addEventListener('click', function (ev) {
+        
+        sec_canvas = document.createElement("canvas");
+        sec_canvas.width = canvas.width;
+        sec_canvas.height = canvas.height;
+        ses_context = sec_canvas.getContext('2d');
+        //create a rectangle with the desired color
+        ses_context.fillStyle = "white";
+        ses_context.fillRect(0, 0, canvas.width, canvas.height);
+        ses_context.drawImage(canvas, 0, 0);
+        link.href=sec_canvas.toDataURL();
+        link.download = "canvas.png";
+    }, false);
+    
+</script>
+</body>
+</html>

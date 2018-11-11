@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <p class="f-headline tc">
+            Последние действия
+        </p>
+    </div>
+     <div class="mw6 center">
+        <div class="row">
+         {% for a in range(f)%}
+         
+            <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
+                <div class="dtc w2 w3-ns v-mid">
+                    <img src="https://ochsnerjournal.files.wordpress.com/2013/11/its-ok2.jpg" class="ba b--black-10 db br-100 w2 w3-ns h2 h3-ns" />
+                </div>
+                <div class="dtc v-mid pl3">
+                    <h1 class="f6 f5-ns fw6 lh-title black mv0">{{sto[a]}}  </h1>
+                    <h2 class="f4 fw4 mt0 mb0 black-60 mv0">= {{ot[a]}}</h2>
+                </div>
+                <form class="dtc v-mid">
+                    <div class="w-100 tr">
+                        <h1 class="f6 f5-ns fw6 lh-title black mv0">{{id[a]}} </h1>
+                        <button class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60" type="submit">Delete</button>
+                    </div>
+                <form>
+            </article>
+            
+         {%endfor%}
+       
+     </div>
+    
+         
+    
+</body>
+</html>
