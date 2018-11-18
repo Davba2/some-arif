@@ -11,46 +11,57 @@
         crossorigin="anonymous">
 </head>
 <body onload="hide()" style="background:#F6FFFE">
+<div id="ss1">
 
-    <div class=" container-fluid bg-yellow tc">
-        <p class="f-subheadline">Арифметические операции</p>
-        <a class="link lead f6" href="{{url_for('get_db')}}" style="text-decoration: none">Последние операции</a>
-    </div>
-     <div class="container-fluid tc " >
-    <form  id="form" class="form-group m-1"  enctype="multipart/form-data">
-        <input type="file" id="jojo" class="form-control" style="width:400px;margin:0 auto;"name='file' multiple accept="image/*">
-        <button type="submit" onclick="get()" class="m-1 btn btn-outline-primary ">
-            Pusk
-        </button>
-    </form>
-    </div>
-    <div class="container tc" style="position: relative;">
-        <img src="" id="im" class="tc img-fluid" style="width:600px">
-        <p id="zz" ></p>
-    </div>
-    <div id="can" class="container" >
-        <div class="text-center">
-            <canvas style="margin:0 auto;border:2px solid;background-color:white">
-            
-            </canvas>
+        <div class=" container-fluid bg-near-blue tc">
+            <p class="f-subheadline" id="ss">Арифметические операции</p>
+            <a class="link lead f6" href="{{url_for('get_db')}}" style="text-decoration: none">Последние операции</a>
         </div>
-        <div class="text-center container">
-            <input type="button" id='clear' value='Clear' class="btn btn-outline-success">
-            <input type="button" id='change' value='Color' class="btn ">
-            <a id="a" class="btn btn-outline-success">Download</a>
-        </div>
-    </div>
-<div class="container text-center">
-    <div id='aa' style='position:fixed;bottom:30px;right:50px;'>
-        <input type="button" value="Нарисовать" id="draw" class="btn btn-outline-success">
-    </div>
-    <div style='position:fixed;bottom:30px;right:30px;'>
-        
-    </form>
+            <div class="container-fluid tc " >
+                <hr>
+            <form  id="form" class="form-group m-1"  enctype="multipart/form-data">
+                <input type="file" id="jojo" class="form-control" style="width:400px;margin:0 auto;"name='file' multiple accept="image/*">
+                <button type="submit" onclick="get()" class="m-1 btn btn-outline-primary ">
+                    Pusk
+                </button>
+            </form>
+            </div>
 </div>
+        <div class="container tc" style="position: relative;">
+            <img src="" id="im" class="tc img-fluid" style="width:600px">
+            <p id="zz" ></p>
+        </div>
+        <div id="can" class="container" >
+            <div class="text-center">
+                <canvas style="margin:0 auto;border:2px solid;background-color:white">
+                
+                </canvas>
+            </div>
+            <div class="text-center container">
+                <input type="button" id='clear' value='Clear' class="btn btn-outline-success">
+                <input type="button" id='change' value='Color' class="btn ">
+                <a id="a" class="btn btn-outline-success">Download</a>
+                <br>
+            </div>
+            <div style="margin:30px;">
+            </div>
+        </div>
+    <div class="container text-center">
+        <div id='aa' style='position:fixed;bottom:30px;right:50px;'>
+            <input type="button" value="Нарисовать" id="draw" class="btn btn-outline-success">
+        </div>
+        <div style='position:fixed;bottom:30px;right:30px;'>
+            
+        </form>
+    </div>
+
+
 <script>
+  
     function hide(){
         $("#can").hide();
+        $('#ss1,#aa').hide();
+        $('#ss1,#aa').fadeIn(2000);
     }
     $(document).ready(function () {
             $("#draw").click(function () {
@@ -107,10 +118,10 @@
     var mouseY = 0;
     var colour = '#96CCFF';
     var mousedown = false;
-    colors = ['#FF6300','#A463F2','#19A974','#357EDD','#001B44',' #111111','#D5008F', '#FF4136','#A463F2'];
+    colors = ['#FF6300','#A463F2','#19A974','#357EDD','#001B44',' #111111','#D5008F', '#FF4136','#A463F2','#9EEBCF','#EEEEEE','#5E2CA5','#A463F2'];
     canvas.width = 750;
     canvas.height = 400;
-  
+    
     const col=document.querySelector('#change')
     col.addEventListener('click',function(ev)
     {
