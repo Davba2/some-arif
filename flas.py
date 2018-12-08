@@ -98,11 +98,11 @@ def cam():
     zza = []
     pozition = {}
     for cin in contours:
-        if cv2.contourArea(cin) > 70:
+        if cv2.contourArea(cin) > 90:
             # continue
             (x, y, w, h) = cv2.boundingRect(cin)
 
-            if h > 100:
+            if h > 110:
                 print("__________")
                 print("x-{0}".format(x))
                 print("y-{0}".format(y))
@@ -148,9 +148,7 @@ def cam():
     cv2.imwrite('static/fxx_out1.jpg', frame2)
     K.clear_session()
     pics = '/static/fxx_out1.jpg'
-    arif=db.arif
-    pres = datetime.datetime.now()
-    arif.insert_one({'stroka':stroka,'otvet':ot,'dt':pres})
+    
     
     return json.dumps({'src': '/static/fxx_out1.jpg', 'otvet': stroka, 'ot': ot})
 
